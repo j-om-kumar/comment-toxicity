@@ -38,7 +38,12 @@ submit = st.button('Submit')
 if submit:
     df = pd.read_csv("./data/train.csv")  # Ensure the file path is correct
     predictions = score_comment(input_comment, df)
+
+    is_clean = all(not is_present for is_present in predictions.values())
     
+    if is_clean:
+        st.success("The comment is clean!")
+
     st.write("Results:")
     for label, is_present in predictions.items():
         st.checkbox(label, value=is_present, key=label, disabled=True)
